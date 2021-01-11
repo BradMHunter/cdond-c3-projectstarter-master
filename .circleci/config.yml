@@ -325,7 +325,7 @@ jobs:
       - run:
           name: Smoke test frontend
           command: |
-            URL="http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website-us-east-1.amazonaws.com/#/employees"
+            URL="http://udapeople-${CIRCLE_WORKFLOW_ID}.s3-website-us-east-2.amazonaws.com/#/employees"
             if curl -s ${URL} | grep "Welcome"
             then
               return 0
@@ -341,7 +341,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-          fingerprints: ["c8:0e:47:83:0f:1c:f1:a8:4a:98:c9:4c:61:a3:4e:3a"]
+          fingerprints: ["64:bf:c0:6e:1d:4d:0e:84:f3:2a:9f:38:a0:ef:25:95"]
       - run:
           name: Install dependencies
           command: |
