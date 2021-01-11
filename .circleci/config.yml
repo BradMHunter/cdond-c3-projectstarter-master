@@ -10,8 +10,8 @@ commands:
             aws s3 rm "s3://udapeople-${CIRCLE_WORKFLOW_ID}" --recursive
             aws cloudformation delete-stack --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID}"
             aws cloudformation delete-stack --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID}"
-            curl -H "Content-Type: text/plain" -H "token: 46379a95-9d53-46f2-becb-d0e5c670441f" --request PUT --data "" https://api.memstash.io/values/url_${CIRCLE_WORKFLOW_ID}
-            curl -H "Content-Type: text/plain" -H "token: 46379a95-9d53-46f2-becb-d0e5c670441f" --request PUT --data "" https://api.memstash.io/values/arn_${CIRCLE_WORKFLOW_ID}
+            curl -H "Content-Type: text/plain" -H "token: 747c3bcb-fa05-45d6-abe3-130b245a6aca" --request PUT --data "" https://api.memstash.io/values/url_${CIRCLE_WORKFLOW_ID}
+            curl -H "Content-Type: text/plain" -H "token: 747c3bcb-fa05-45d6-abe3-130b245a6aca" --request PUT --data "" https://api.memstash.io/values/arn_${CIRCLE_WORKFLOW_ID}
           when: on_fail
 
   revert-migration:
@@ -21,7 +21,7 @@ commands:
           name: Revert migrations
           when: on_fail
           command: |
-            SUCCESS=$(curl -H "token: 46379a95-9d53-46f2-becb-d0e5c670441f" --request GET https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID})
+            SUCCESS=$(curl -H "token: 747c3bcb-fa05-45d6-abe3-130b245a6aca" --request GET https://api.memstash.io/values/migration_${CIRCLE_WORKFLOW_ID})
             if (( $SUCCESS == 1 ));
             then
               cd ~/project/backend
@@ -128,10 +128,10 @@ jobs:
               --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID}" \
               --tags project=udaPeople
-            URLS=$(aws ec2 describe-instances --region us-east-1 --query "Reservations[*].Instances[*].PublicIpAddress"  --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}"  --output text)
+            URLS=$(aws ec2 describe-instances --region us-east-2 --query "Reservations[*].Instances[*].PublicIpAddress"  --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID}"  --output text)
             echo "URLS=$URLS"
             echo "${CIRCLE_WORKFLOW_ID}"
-            curl -H "Content-Type: text/plain" -H "token: 46379a95-9d53-46f2-becb-d0e5c670441f" --request PUT --data "$URLS" https://api.memstash.io/values/url_${CIRCLE_WORKFLOW_ID}
+            curl -H "Content-Type: text/plain" -H "token: 747c3bcb-fa05-45d6-abe3-130b245a6aca" --request PUT --data "$URLS" https://api.memstash.io/values/url_${CIRCLE_WORKFLOW_ID}
       - run:
           name: Ensure that the frontend infrastructure exists
           command: |
@@ -142,7 +142,7 @@ jobs:
               --tags project=udaPeople
               ARN=$(aws s3 ls | grep udapeople)
               echo "ARN=$ARN"
-              curl -H "Content-Type: text/plain" -H "token: 46379a95-9d53-46f2-becb-d0e5c670441f" --request PUT --data "$ARN" https://api.memstash.io/values/arn_${CIRCLE_WORKFLOW_ID}
+              curl -H "Content-Type: text/plain" -H "token: 747c3bcb-fa05-45d6-abe3-130b245a6aca" --request PUT --data "$ARN" https://api.memstash.io/values/arn_${CIRCLE_WORKFLOW_ID}
       - run:
           name: Ensure that the cloudfront infrastructure exists
           command: |
@@ -171,7 +171,7 @@ jobs:
           command: |
             cd .circleci/ansible
             echo "[web]" >> inventory.txt
-            URLS=$(curl -H "token: 46379a95-9d53-46f2-becb-d0e5c670441f" --request GET https://api.memstash.io/values/url_${CIRCLE_WORKFLOW_ID})
+            URLS=$(curl -H "token: 747c3bcb-fa05-45d6-abe3-130b245a6aca" --request GET https://api.memstash.io/values/url_${CIRCLE_WORKFLOW_ID})
             echo "$URLS" >> inventory.txt
             cat inventory.txt
       - run:
@@ -208,7 +208,7 @@ jobs:
       - run:
           name: Log to memstash
           command: |
-            curl -H "Content-Type: text/plain" -H "token: 46379a95-9d53-46f2-becb-d0e5c670441f" --request PUT --data "true" https://api.memstash.io/values/${CIRCLE_WORKFLOW_ID:0:7}
+            curl -H "Content-Type: text/plain" -H "token: 747c3bcb-fa05-45d6-abe3-130b245a6aca" --request PUT --data "true" https://api.memstash.io/values/${CIRCLE_WORKFLOW_ID:0:7}
       - destroy-environment
 
   deploy-frontend:
@@ -262,7 +262,7 @@ jobs:
           command: |
             cd .circleci/ansible
             echo "[web]" >> inventory.txt
-            URLS=$(curl -H "token: 46379a95-9d53-46f2-becb-d0e5c670441f" --request GET https://api.memstash.io/values/url_${CIRCLE_WORKFLOW_ID})
+            URLS=$(curl -H "token: 747c3bcb-fa05-45d6-abe3-130b245a6aca" --request GET https://api.memstash.io/values/url_${CIRCLE_WORKFLOW_ID})
             echo "$URLS" >> inventory.txt
             cat inventory.txt
       - run:
