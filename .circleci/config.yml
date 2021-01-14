@@ -202,6 +202,9 @@ jobs:
       - run:
           name: Run DB Migration
           command: |
+            sudo chmod -R 777 /home/ubuntu/
+            sudo chown -R $(whoami) ~/.npm
+            sudo chown -R $(whoami) /usr/local/lib/node_modules/
             cd backend
             npm i
             npm run migrations
