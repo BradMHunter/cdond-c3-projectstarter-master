@@ -178,7 +178,8 @@ jobs:
           name: Configure server with ansible
           no_output_timeout: 30m
           command: |
-            echo ENVIROMENT=production > "backend/.env"
+            echo ENVIRONMENT=production > "backend/.env"
+            echo NODE_ENV=production >> "backend/.env"
             echo TYPEORM_CONNECTION=postgres >> "backend/.env"
             echo TYPEORM_MIGRATIONS_DIR=./src/migrations >> "backend/.env"
             echo TYPEORM_ENTITIES=./src/modules/domain/**/*.entity.ts >> "backend/.env"
@@ -271,7 +272,8 @@ jobs:
           command: |
             cd backend
             touch .env
-            echo ENVIROMENT=production > ".env"
+            echo ENVIRONMENT=production > ".env"
+            echo NODE_ENV=production >> ".env"
             echo TYPEORM_CONNECTION=postgres >> ".env"
             echo TYPEORM_MIGRATIONS_DIR=./src/migrations >> ".env"
             echo TYPEORM_ENTITIES=./src/modules/domain/**/*.entity.ts >> ".env"
